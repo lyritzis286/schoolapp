@@ -25,8 +25,8 @@ public class Teacher extends AbstractEntity {
     @Column(unique = true, nullable = false)
     private String vat;
 
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
 
     @Setter(AccessLevel.PACKAGE)
     @ManyToOne(fetch = FetchType.LAZY)
