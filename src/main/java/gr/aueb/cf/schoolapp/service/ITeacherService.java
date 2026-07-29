@@ -10,4 +10,7 @@ public interface ITeacherService {
 
     TeacherReadOnlyDTO saveTeacher(TeacherInsertDTO teacherInsertDTO)
         throws EntityInvalidArgumentException, EntityAlreadyExistsException;
+
+    boolean isTeacherExistsByVat(String vat);
 }
+
