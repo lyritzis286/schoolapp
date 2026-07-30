@@ -15,7 +15,7 @@ public interface TeacherRepository  extends JpaRepository<Teacher, Long> {
     Optional<Teacher> findByUuid(UUID uuid);
 
     @EntityGraph(attributePaths = {"region"})
-    Page<Teacher> findAllByDeletedFalse(Pageable pageable);
+    Page<Teacher> findAllByAndDeletedFalse(Pageable pageable);
 
     Optional<Teacher> findByVatAndDeletedFalse(String vat);
     Optional<Teacher> findByUuidAndDeletedFalse(UUID uuid);

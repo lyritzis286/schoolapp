@@ -65,7 +65,7 @@ public class TeacherService implements ITeacherService {
     @Override
     @Transactional(readOnly = true)
     public Page<TeacherReadOnlyDTO> getPaginatedTeachersDeletedFalse(Pageable pageable) {
-        Page<Teacher> teacherPage = teacherRepository.findAllByDeletedFalse(pageable);
+        Page<Teacher> teacherPage = teacherRepository.findAllByAndDeletedFalse(pageable);
         log.debug("Get paginated teachers not deleted returned successfully page= {}, size= {}", teacherPage.getNumber(), teacherPage.getSize());
         return teacherPage.map(mapper::mapToTeacherReadOnlyDTO);
     }
