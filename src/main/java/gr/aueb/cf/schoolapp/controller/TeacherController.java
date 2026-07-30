@@ -52,7 +52,8 @@ public class TeacherController {
         }
         try {
             TeacherReadOnlyDTO teacherReadOnlyDTO = teacherService.saveTeacher(teacherInsertDTO);
-            redirectAttributes.addAttribute("teacher", teacherReadOnlyDTO);
+            //Porst redirect get
+            redirectAttributes.addFlashAttribute("teacherReadOnlyDTO", teacherReadOnlyDTO);
             return "redirect:/teachers/success";    //controller
         }catch (EntityAlreadyExistsException | EntityInvalidArgumentException e){
             model.addAttribute("errorMessage", e.getMessage());
@@ -65,19 +66,20 @@ public class TeacherController {
     @GetMapping("/success")
     public String teacherInsertSuccess(Model model) {
         if(!model.containsAttribute("teacherInsertDTO")) {
-            return "redirect:/teachers/success";
+            return "redirect:/teachers/insert";
         }
         return "teacher-success";
     }
 
     @ModelAttribute("regionsReadOnlyDTO")
     public List<RegionReadOnlyDTO> regions() {
+        return regionService.findAllRegionsSortedByName();
 
-        return List.of(
-                new RegionReadOnlyDTO(1L, "Αθήνα"),
-                new RegionReadOnlyDTO(2L, "Θεσσαλονίκη"),
-                new RegionReadOnlyDTO(3L, "Πάτρα")
-        );
+//        return List.of(
+//                new RegionReadOnlyDTO(1L, "Αθήνα"),
+//                new RegionReadOnlyDTO(2L, "Θεσσαλονίκη"),
+//                new RegionReadOnlyDTO(3L, "Πάτρα")
+        //);
     }
 
 }
