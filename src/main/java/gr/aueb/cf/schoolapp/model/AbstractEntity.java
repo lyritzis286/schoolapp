@@ -3,6 +3,7 @@ package gr.aueb.cf.schoolapp.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,19 @@ public abstract class AbstractEntity {
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME")
     private Instant updatedAt;
+
+    @Column(nullable = false)
+    private boolean deleted;
+
+    @Column(name = "deleted_at", columnDefinition = "DATETIME")
+    private Instant deletedAt;      //UTC
+
+    public void softDelete() {
+        this.deleted = true;
+        this.deletedAt = Instant.now();
+    }
+
+
 
 
 
