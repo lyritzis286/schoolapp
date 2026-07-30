@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +60,22 @@ public class TeacherService implements ITeacherService {
             log.warn("Save failed for teacher with VAT= {}. Teacher exists", dto.vat());
             throw new EntityAlreadyExistsException("Save failed for teacher with VAT=  " + dto.vat() + " already exists");
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TeacherReadOnlyDTO> getPaginatedTeachersDeletedFalse(Pageable pageable) {
+        Page<Teacher> teacherPage = teacherRepository.findAllByDeletedFalse(pageable);
+        log.debug("Get paginated teachers not deleted returned successfully page= {}, size= {}", teacherPage.getNumber(), teacherPage.getSize());
+        return teacherPage.map(mapper::mapToTeacherReadOnlyDTO);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TeacherReadOnlyDTO> getPaginatedTeachers(Pageable pageable) {
+        Page<Teacher> teacherPage = teacherRepository.findAll(pageable);
+        log.debug("Get paginated teachers returned successfully page= {}, size= {}", teacherPage.getNumber(), teacherPage.getSize());
+        return teacherPage.map(mapper::mapToTeacherReadOnlyDTO);
     }
 
     @Override
