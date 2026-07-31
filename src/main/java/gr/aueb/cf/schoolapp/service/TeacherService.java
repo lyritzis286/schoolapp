@@ -145,6 +145,24 @@ public class TeacherService implements ITeacherService {
         }
     }
 
+    @Override
+    @Transactional(rollbackFor = EntityNotFoundException.class)
+    public TeacherReadOnlyDTO deleteTeacherByUUID(UUID uuid) throws EntityNotFoundException {
+        try{
+            Teacher teacher = teacherRepository
+                    .findByUuidAndDeletedFalse(uuid)
+                    .orElseThrow(() -> new  EntityNotFoundException
+                            ("Teacher with uuid= " + uuid+ " not found"));
+            teacher.softDelete();
+
+//            teacherRepository.save(teacher);
+            log.info("Teacher with uuid={} deleted successfully.", uuid);
+            return mapper.mapToTeacherReadOnlyDTO(teacher);
+        }catch (EntityNotFoundException e) {
+            log.warn("Delete failed.Teacher with uuid={} not found", uuid);
+            throw e;
+        }
+    }
 
     @Override
     @Transactional(readOnly = true)
