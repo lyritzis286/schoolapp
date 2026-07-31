@@ -95,6 +95,13 @@ public class TeacherController {
         return "teacher-edit";
     }
 
+    @PostMapping("/edit")
+    public String updateTeacher(@Valid @ModelAttribute TeacherEditDTO teacherEditDTO
+            , BindingResult bindingResult
+            , RedirectAttributes redirectAttributes, Model model) {
+
+    }
+
 
 
     @ModelAttribute("regionsReadOnlyDTO")
