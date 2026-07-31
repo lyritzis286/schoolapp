@@ -9,6 +9,8 @@ import gr.aueb.cf.schoolapp.dto.TeacherReadOnlyDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public interface ITeacherService {
 
     TeacherReadOnlyDTO saveTeacher(TeacherInsertDTO teacherInsertDTO)
@@ -22,5 +24,8 @@ public interface ITeacherService {
     TeacherReadOnlyDTO updateTeacher(TeacherEditDTO teacherEditDTO)
             throws EntityNotFoundException, EntityInvalidArgumentException
             , EntityAlreadyExistsException;
+
+    TeacherEditDTO getTeacherByUUIDDeletedFalse(UUID uuid)
+        throws EntityNotFoundException;
 }
 
